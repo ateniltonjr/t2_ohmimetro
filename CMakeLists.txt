@@ -28,35 +28,38 @@ set(PICO_BOARD pico_w CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(t2_ohmimetro C CXX ASM)
+project(ohmimetro_02 C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(t2_ohmimetro t2_ohmimetro.c )
+add_executable(ohmimetro_02 
+                ohmimetro_02.c 
+                lib/ssd1306.c
+                matrixws.c)
 
-pico_set_program_name(t2_ohmimetro "t2_ohmimetro")
-pico_set_program_version(t2_ohmimetro "0.1")
+pico_set_program_name(ohmimetro_02 "ohmimetro_02")
+pico_set_program_version(ohmimetro_02 "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(t2_ohmimetro 0)
-pico_enable_stdio_usb(t2_ohmimetro 0)
+pico_enable_stdio_uart(ohmimetro_02 1)
+pico_enable_stdio_usb(ohmimetro_02 1)
 
 # Add the standard library to the build
-target_link_libraries(t2_ohmimetro
-        pico_stdlib)
+target_link_libraries(ohmimetro_02
+        pico_stdlib
+        hardware_adc
+        hardware_i2c
+        hardware_pio)
 
 # Add the standard include files to the build
-target_include_directories(t2_ohmimetro PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
-)
+target_include_directories(ohmimetro_02 PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR})
 
 # Add any user requested libraries
-target_link_libraries(t2_ohmimetro 
-        
-        )
+target_link_libraries(ohmimetro_02 )
 
-pico_add_extra_outputs(t2_ohmimetro)
+pico_add_extra_outputs(ohmimetro_02)
 
